@@ -1,0 +1,147 @@
+C51 COMPILER V9.01   MAIN                                                                  10/15/2020 19:52:09 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h> 
+   2          #define uint unsigned int 
+   3          #define uchar unsigned char 
+   4          #define Time_RG 80; // ¶¨Òå ºìµÆ ºÍÂÌµÆ ÁÁ Ê±¼ä ±äÁ¿ ÓÃÓÚ ¶¨Ê±Æ÷ 0 ¼ÆÊ± 20S Ê±¼ä µ½
+   5          #define Time_YE 30; // ¶¨Òå »ÆµÆÉÁË¸ Ê±¼ä±äÁ¿ 5S Ê±¼äµ½ 
+   6          uint Time_Mod ; // ¶¨ÒåÊ±¼ä±äÁ¿ ÓÃÀ´ ÇÐ»» ºìÂÌµÆÄ£Ê½ 
+   7          uint Time; // ¶¨Òå Ê±¼ä±È½Ï±äÁ¿ ÓÃÀ´Çø·Ö ºìÂÌÁÁ ºÍ »ÆµÆÉÁË¸ Ê±¼ä²»Í¬ 
+   8          uchar Model; // ¶¨Òå ºìÂÌµÆÏÔÊ¾ Ä£Ê½±äÁ¿ // 0£º ¶«Î÷ÂÌµÆÁÁ ÄÏ±±ºìµÆÁÁ 1£º ¶«Î÷ÂÌµÆÃð ¶«Î÷»ÆµÆÉÁË¸ ÄÏ±± ºìµ
+             -Æ ÁÁ // 2£º ¶«Î÷ºìµÆÁÁ ÄÏ±±ÂÌµÆÁÁ 3£º ¶«Î÷ºìµÆÁÁ ÄÏ±±ÂÌµÆÃð ÄÏ±± »ÆµÆÉÁ Ë¸
+   9          uchar All_red=0x36; // ºìµÆ È«ÁÁ IO ¿ÚÊýÖµ 
+  10          uchar DX_G_NB_R =0X1E; // ¶«Î÷ ÂÌµÆÁÁ ÄÏ±±ºìµÆÁÁ IO ¿ÚÊýÖµ 
+  11          uchar DX_Y_NB_R =0X2E; // ¶«Î÷ »ÆµÆÁÁ ÄÏ±±ºìµÆÁÁ IO ¿ÚÊýÖµ 
+  12          uchar DX_R_NB_G =0X33; // ¶«Î÷ ºìµÆÁÁ ÄÏ±±ÂÌµÆÁÁ IO ¿ÚÊýÖµ 
+  13          uchar DX_R_NB_Y =0X35; // ¶«Î÷ ºìµÆÁÁ ÄÏ±±»ÆµÆÁÁ IO ¿ÚÊýÖµ 
+  14          uchar DX_shanshuo,NB_shanshuo; // ¶¨Òå »ÆµÆÉÁË¸ ±äÁ¿ 
+  15          uchar Time_shanshuo; // ¶¨Òå»ÆµÆÉÁË¸ Ê±¼ä¼ä¸ô 
+  16          bit Flag_shanshuo=0; // ¶¨Òå ÉÁË¸ ÇÐ»»±êÖ¾Î» //********* T0 ¶¨Ê±Æ÷ ³õÊ¼»¯ º¯Êý **********// 
+  17          
+  18          void Time0_int() 
+  19          { 
+  20   1              TMOD |= 0X01; //Ê¹ÓÃ¶¨Ê±Æ÷ T0 µÄ¶¨Ê±¹¤×÷·½Ê½£¬¹¤×÷ÓÚ¹¤×÷·½Ê½ 1 
+  21   1              TH0 = 0x3C; //¶¨Ê±Æ÷ T0 µÄ¸ß 8 Î»¸³Öµ£¬¼ÆÊýÖµÎª 1 
+  22   1              TL0 = 0xB0; //¶¨Ê±Æ÷ T0 µÄµÍ 8 Î»¸³Öµ ¶¨Ê±Æ÷ 0 ¶¨Ê± 50ms ¸³³õÖµ 
+  23   1              ET0 = 1; //ÔÊÐí ¶¨Ê±Æ÷ 0 ÖÐ¶Ï 
+  24   1              EA = 1; //¿ª×ÜÖÐ¶Ï 
+  25   1              TR0 = 1; //Æô¶¯¶¨Ê±Æ÷ 0 
+  26   1      }
+  27          
+  28          void Con_Shanshuo() { 
+  29   1      
+  30   1      if((Model==1)||(Model==3)) //ºìÂÌµÆÔÚ 1 ºÍ 3 Ä£Ê½ ÐèÒª»ÆµÆÉÁË¸ µÄÄ£Ê½ 
+  31   1      { 
+  32   2         Time=Time_YE; // ÇÐ»»ÏÔÊ¾Ä£Ê½Ê±¼äÎª »ÆµÆÉÁË¸Ä£Ê½ 5S
+  33   2      
+  34   2      }
+  35   1      else // ²»ÔÚ»ÆµÆÉÁË¸ Ä£Ê½ÏÂ 
+  36   1      { 
+  37   2      Time=Time_RG ; // ÇÐ»»ÏÔÊ¾Ä£Ê½Ê±¼äÎª ºìÂÌµÆ µãÁÁÊ±¼ä 20S 
+  38   2      }
+  39   1      if(Model==1) 
+  40   1      { 
+  41   2      
+  42   2              if(Flag_shanshuo==0) { 
+  43   3              DX_shanshuo=0X2E; 
+  44   3      }
+  45   2      else 
+  46   2      { 
+  47   3              DX_shanshuo=0XFE; 
+  48   3      } 
+  49   2      }
+  50   1      else if(Model==3) { 
+  51   2      
+  52   2      if(Flag_shanshuo==0) { 
+  53   3      
+  54   3              NB_shanshuo=0X35;
+C51 COMPILER V9.01   MAIN                                                                  10/15/2020 19:52:09 PAGE 2   
+
+  55   3       }
+  56   2       else 
+  57   2       { 
+  58   3              NB_shanshuo=0XF7;
+  59   3       } 
+  60   2       } 
+  61   1       }
+  62           
+  63           
+  64           
+  65          void main() { 
+  66   1      P2=P0=All_red; // ºìµÆ È«ÁÁ 
+  67   1      Time0_int(); // ¶¨Ê±Æ÷ 0 ³õÊ¼»¯ ³ÌÐò 
+  68   1      
+  69   1      while(1)
+  70   1      { 
+  71   2      Con_Shanshuo(); 
+  72   2              switch(Model) { 
+  73   3              case 0 : { P2=P0=DX_G_NB_R ; // ¶«Î÷ ÂÌµÆÁÁ ÄÏ±± ºìµÆÁÁ 
+  74   4              }break; 
+  75   3              
+  76   3              case 1 : { P2=P0= (DX_Y_NB_R | DX_shanshuo ); // ¶«Î÷ »ÆµÆÁÁ ÄÏ±±ºìµÆÁÁ 
+  77   4              }break; 
+  78   3              
+  79   3              case 2 : { P2=P0=DX_R_NB_G; // ¶«Î÷ ºìµÆÁÁ ÄÏ±±ÂÌµÆÁÁ 
+  80   4              }break; 
+  81   3              
+  82   3              case 3 : { P2=P0=(DX_R_NB_Y | NB_shanshuo); // ¶«Î÷ ºìµÆÁÁ ÄÏ±± »ÆµÆÁÁ 
+  83   4              }break; } } }//********* T0 ¶¨Ê±Æ÷ÖÐ¶Ï·þÎñº¯Êý **********//
+  84          
+  85          void timer0(void) interrupt 1 using 0 { 
+  86   1      
+  87   1      Time_Mod++; // ºìµÆ ÂÌµÆ µãÁÁ ÑÓÊ±±äÁ¿ ++ 
+  88   1      if(Time_Mod>=Time) // Ê±¼äµ½ 
+  89   1      
+  90   1      { 
+  91   2              Model++; // ºìÂÌµÆ Ä£Ê½ ++ 
+  92   2              if(Model>3)
+  93   2               { 
+  94   3               Model=0; 
+  95   3               }
+  96   2               Time_Mod=0; 
+  97   2               }
+  98   1              
+  99   1              if((Model==1)||(Model==3)) // »ÆµÆÉÁË¸Ä£Ê½ 
+ 100   1              { 
+ 101   2                Time_shanshuo++; // ÉÁË¸Ê±¼ä¼ä¸ô ++ 
+ 102   2              if(Time_shanshuo>10) // 10*50ms Ê±¼äµ½ 
+ 103   2          {
+ 104   3               Flag_shanshuo=~Flag_shanshuo; // ÉÁË¸±êÖ¾Î» È¡·´ 
+ 105   3               Time_shanshuo=0; 
+ 106   3              } 
+ 107   2      
+ 108   2      }else
+ 109   1      
+ 110   1              Time_shanshuo=0; 
+ 111   1              TH0 = 0x3C; //¶¨Ê±Æ÷ T0 µÄ¸ß 8 Î»¸³Öµ£¬¼ÆÊýÖµÎª 1 
+ 112   1              TL0 = 0xB0; //¶¨Ê±Æ÷ T0 µÄµÍ 8 Î»¸³Öµ ¶¨Ê±Æ÷ 0 ¶¨Ê± 50ms ¸³³õÖµ 
+ 113   1              TR0 = 1; //Æô¶¯¶¨Ê±Æ÷ 0 
+ 114   1      }
+ 115          
+ 116          
+C51 COMPILER V9.01   MAIN                                                                  10/15/2020 19:52:09 PAGE 3   
+
+ 117          
+ 118          
+ 119          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    211    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     13    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

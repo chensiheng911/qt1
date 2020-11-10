@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Smart City</string>
+    <string name="skip_wait">%d</string>
+</resources>

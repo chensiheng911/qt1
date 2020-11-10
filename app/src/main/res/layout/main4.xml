@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="nbpt.com.smartcity.SecActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/edtLabel1"
+            android:layout_alignBottom="@+id/edtLabel1"
+            android:layout_alignParentStart="true"
+            android:text="用户名" />
+
+        <EditText
+            android:id="@+id/edtLabel1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="false"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtLabel1"
+            android:layout_marginTop="20dp"
+            android:layout_toStartOf="@+id/edtLabel1"
+            android:text="密码" />
+
+        <EditText
+            android:id="@+id/edtLabel2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/edtLabel1"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/TextView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtLabel1"
+            android:layout_marginTop="20dp"
+            android:layout_toStartOf="@+id/edtLabel1"
+            android:text="座右铭" />
+
+        <EditText
+            android:id="@+id/edtLabel3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/edtLabel1"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="false"
+            android:layout_below="@+id/textView2"
+            android:layout_toEndOf="@id/textView2"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnDisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/edtLabel2"
+                android:layout_below="@+id/edtLabel2"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:text="登录" />
+
+            <Button
+                android:id="@+id/btnClear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/btnDisplay"
+                android:layout_alignBottom="@+id/btnDisplay"
+                android:layout_alignParentEnd="true"
+                android:layout_weight="1"
+                android:text="退出" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
